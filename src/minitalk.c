@@ -6,7 +6,7 @@
 /*   By: gbourgeo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/28 02:31:33 by gbourgeo          #+#    #+#             */
-/*   Updated: 2018/10/29 09:45:28 by root             ###   ########.fr       */
+/*   Updated: 2018/11/23 11:08:53 by gbourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void		quitprogram(int signum)
 static int		get_options(t_opt *opt, char **av)
 {
 	if (strcmp(av[1], "-l") == 0) {
-		opt->ip = "localhost";
+		opt->ip = "0.0.0.0";
 		opt->port = av[2];
 		opt->size = MAX_CLIENTS;
 		if (!(opt->fd = opensocket(opt->ip, opt->port, &bind, &listen)))

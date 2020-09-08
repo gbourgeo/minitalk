@@ -1,54 +1,44 @@
-#******************************************************************************#
+# **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: gbourgeo <gbourgeo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2014/02/07 21:22:32 by gbourgeo          #+#    #+#              #
-#    Updated: 2014/02/10 16:58:15 by gbourgeo         ###   ########.fr        #
+#    Created: 2018/10/29 06:23:06 by gbourgeo          #+#    #+#              #
+#    Updated: 2020/09/08 13:54:31 by gbourgeo         ###   ########.fr        #
 #                                                                              #
-#******************************************************************************#
+# **************************************************************************** #
 
-NAME	= server
+NAME	= minitalk
 
-NAME2	= client
+SRC_D	= src/
+SRC		= minitalk.c socket.c loop.c clear.c
 
-SRC		= server.c ft_realloc.c
+OBJ_D	= obj/
+OBJ		= $(addprefix $(OBJ_D), $(SRC:.c=.o))
 
-SRC2	= client.c
-
-OBJ		= $(SRC:.c=.o)
-
-OBJ2	= $(SRC2:.c=.o)
+INC		= inc/
 
 FLAGS	= -Wall -Werror -Wextra
 
-LIBFT	= libft/
+LIBS	= 
 
-LIBFT_H	= libft/includes/
+all: $(OBJ_D) $(NAME)
 
-.PHONY: clean fclean re all
+$(OBJ_D):
+	@mkdir -p $@
 
-all: $(NAME) $(NAME2)
+$(NAME): $(OBJ)
+	gcc -o $@ $^ $(LIBS)
 
-$(NAME): server.h
-	make -C $(LIBFT)
-	gcc $(FLAGS) -c $(SRC) -I $(LIBFT_H)
-	gcc -o $(NAME) $(OBJ) -L $(LIBFT) -lft -O3
-
-$(NAME2):
-	gcc $(FLAGS) -c $(SRC2) -I $(LIBFT_H)
-	gcc -o $(NAME2) $(OBJ2) -L $(LIBFT) -lft -O3
+$(OBJ_D)%.o: $(SRC_D)%.c $(INC)minitalk.h
+	gcc $(FLAGS) -o $@ -c $< -I$(INC)
 
 clean:
-	@make -C $(LIBFT) clean
-	rm -f $(OBJ)
-	rm -f $(OBJ2)
+	/bin/rm -rf $(OBJ_D)
 
 fclean: clean
-	@make -C $(LIBFT) fclean
-	rm -f $(NAME)
-	rm -f $(NAME2)
+	/bin/rm -f $(NAME)
 
 re: fclean all
